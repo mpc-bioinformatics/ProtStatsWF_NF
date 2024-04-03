@@ -4,5 +4,5 @@ Rscript TESTING_workflow.R "testdata/HCC_19vs19.xlsx" "test_output_HCC" "10:47" 
 python TESTING_plotly.py -output_path "test_output_HCC" -D_validvalues_csv "test_output_HCC/D_validvalues.csv" \
 -D_long_csv "test_output_HCC/D_norm_long.csv" -D_PCA_csv "test_output_HCC/D_PCA.csv"
 
-
+nestflow run TESTING.nf
 
