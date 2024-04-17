@@ -1,7 +1,8 @@
 
 #!/usr/bin/env Rscript
 
-install.packages("C:\\Users\\schorkka\\Documents\\Projects\\Statistik_Workflows\\ProtStatsWF", repos = NULL, type="source")
+# first install packages affy, matrixStats and vsn
+#install.packages("../ProtStatsWF", repos = NULL, type="source")
 library(ProtStatsWF)
 
 
@@ -25,6 +26,7 @@ use_groups = as.logical(args[4])
 # group_colours
 
 ### hashtag if we need this in the command line
+
 
 workflow_QC(data_path, #
             intensity_columns, #
