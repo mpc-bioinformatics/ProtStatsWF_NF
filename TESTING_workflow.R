@@ -24,18 +24,19 @@ use_groups = as.logical(args[4])
 ### weitere Parameter für die User:
 # group_colours
 
+### hashtag if we need this in the command line
 
-workflow_QC(data_path,
-            intensity_columns,
-            output_path,
+workflow_QC(data_path, #
+            intensity_columns, #
+            output_path, #
 
             na_strings = c("NA", "NaN", "Filtered","#NV"),
-            zero_to_NA = TRUE,
+            zero_to_NA = TRUE, #
 
-            do_log_transformation = TRUE,
-            log_base = 2,
+            do_log_transformation = TRUE, #
+            log_base = 2, #
 
-            use_groups = use_groups,
+            use_groups = use_groups, #
             groupvar_name = "Group",
             group_colours = NULL,
 
@@ -46,7 +47,7 @@ workflow_QC(data_path,
             plot_dpi = 300,
             suffix = "",
 
-            normalization_method = "loess",
+            normalization_method = "loess", #
 
             boxplot_method = "boxplot",
 
