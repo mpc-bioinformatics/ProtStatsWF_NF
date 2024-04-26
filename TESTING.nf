@@ -1,9 +1,10 @@
 #!usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-params.data_path = "/home/schorkka/Documents/ProtStatsWF_NF/testdata/HCC_19vs19.xlsx"
+params.data_path = "/home/kalar_ubuntu/ProtStatsWF_NF/testdata/HCC_19vs19.xlsx"
 params.output_path = "."
-params.intensity_columns = "10:47"
+params.intensity_columns_start = "10"
+params.intensity_columns_end = "47"
 params.use_groups = "TRUE"
 
 
@@ -13,7 +14,8 @@ process Rscript {
   input:
     val data_path
     val output_path
-    val intensity_columns
+    val intensity_columns_start
+    val intensity_columns_end
     val use_groups
 
   output:
@@ -24,7 +26,7 @@ process Rscript {
     path("*.pdf")
 
   """
-  Rscript $baseDir/TESTING_workflow.R ${data_path} ${output_path} ${intensity_columns} ${use_groups}
+  Rscript $baseDir/TESTING_workflow.R --data_path ${data_path} --output_path ${output_path} --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups}
   """ 
 }
 
@@ -49,6 +51,6 @@ process Pythonscript {
 
 
 workflow {
-  Rscript(params.data_path, params.output_path, params.intensity_columns, params.use_groups) 
+  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups) 
   Pythonscript(params.output_path, Rscript.out[3], Rscript.out[0], Rscript.out[2])
 } 
