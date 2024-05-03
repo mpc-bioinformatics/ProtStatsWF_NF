@@ -20,34 +20,62 @@ option_list <- list(
               help = "An integer of the last data column."),
   make_option(opt_str = c("--use_groups"), 
               type = "logical",
-              help = "A logical if groupings should be used.")
-)
+              default = "TRUE",
+              help = "A logical if groupings should be used."),
+  make_option(opt_str = c("--zero_to_NA"), 
+              type = "logical",
+              default = "TRUE",
+              help = "A logical if 0 should be considered 0 or turned into not-available/NA."),
+  make_option(opt_str = c("--do_log_transformation"), 
+              type = "logical",
+              default = "TRUE",
+              help = "A logical if the data should be log transformed."),
+  make_option(opt_str = c("--log_base"), 
+              type = "integer",
+              default = 2,
+              help = "An integer base the data should be log transformed in, if it is going to be log transformed."),
+  make_option(opt_str = c("--normalization_method"), 
+              type = "character",
+              default = "loess",
+              help = "A character of the normalization method. Possible methods are no normalization nonorm or median, loess (default), quantile or lts normalization"),
+  make_option(opt_str = c("--PCA_impute"), 
+              type = "logical",
+              default = "FALSE",
+              help = "A logical if the data should imputed when doing the PCA."),
+  make_option(opt_str = c("--PCA_impute_method"), 
+              type = "character",
+              default = "mean",
+              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median"),
+  
+  )
 
 opt <- parse_args(OptionParser(option_list=option_list))
+
+if(is.null(opt$data_path)){
+  message("The data path is missing. Add: --data_path <your/data/path/file.xlsx>")
+}
+if(is.null(opt$output_path)){
+  message("The output path is missing. Add: --output_path <your/output/path/folder>")
+}
+if(is.null(opt$intensity_columns_start)){
+  message("The column number where the data starts is missing. Add: --intensity_columns_start <number>")
+}
+if(is.null(opt$intensity_columns_end)){
+  message("The column number where the data ends is missing. Add: --intensity_columns_end <number>")
+}
+
+
 
 data_path = opt$data_path
 output_path = opt$output_path
 intensity_columns = opt$intensity_columns_start:opt$intensity_columns_end
 use_groups = opt$use_groups
-
-# library(openxlsx)
-# D <- read.xlsx("..\\testdata/01_QC/HCC_19vs19.xlsx")
-
-#args <- commandArgs(TRUE)
-
-# data_path = "testdata/HCC_19vs19.xlsx"
-# intensity_columns = 10:47
-# output_path = "example_output/"
-# use_groups = TRUE
-
-#data_path = args[1]
-#output_path = args[2]
-#intensity_columns = eval(parse(text=args[3]))
-#use_groups = as.logical(args[4])
-
-
-### weitere Parameter für die User:
-# group_colours
+zero_to_NA = opt$zero_to_NA
+do_log_transformation = opt$do_log_transformation
+log_base = opt$log_base
+normalization_method = opt$normalization_method
+PCA_impute = opt$PCA_impute
+PCA_impute_method = opt$PCA_impute_method
 
 
 workflow_QC(data_path = data_path,
@@ -55,10 +83,10 @@ workflow_QC(data_path = data_path,
             output_path = output_path,
             
             na_strings = c("NA", "NaN", "Filtered","#NV"),
-            zero_to_NA = TRUE,
+            zero_to_NA = zero_to_NA,
             
-            do_log_transformation = TRUE,
-            log_base = 2,
+            do_log_transformation = do_log_transformation,
+            log_base = log_base,
             
             use_groups = use_groups,
             groupvar_name = "Group",
@@ -71,7 +99,7 @@ workflow_QC(data_path = data_path,
             plot_dpi = 300,
             suffix = "",
             
-            normalization_method = "loess",
+            normalization_method = normalization_method,
             
             boxplot_method = "boxplot",
             
@@ -80,7 +108,7 @@ workflow_QC(data_path = data_path,
             
             #PCA_groupvar1 = NULL,
             #PCA_groupvar2 = NULL,
-            PCA_impute = FALSE, PCA_impute_method = "mean", PCA_propNA = 0,
+            PCA_impute = PCA_impute, PCA_impute_method = PCA_impute_method, PCA_propNA = 0,
             PCA_scale. = TRUE,
             PCA_PCx = 1, PCA_PCy = 2,
             PCA_groupvar1_name = "Group",
