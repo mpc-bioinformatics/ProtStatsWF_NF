@@ -6,6 +6,9 @@ params.output_path = "."
 params.intensity_columns_start = "10"
 params.intensity_columns_end = "47"
 params.use_groups = "TRUE"
+params.do_log_transformation = "TRUE"
+params.normalization_method = "loess"
+params.PCA_impute = "FALSE"
 
 
 process Rscript {
@@ -17,6 +20,9 @@ process Rscript {
     val intensity_columns_start
     val intensity_columns_end
     val use_groups
+    val do_log_transformation
+    val normalization_method
+    val PCA_impute
 
   output:
     file("D_norm_long.csv")
@@ -26,7 +32,7 @@ process Rscript {
     path("*.pdf")
 
   """
-  Rscript $baseDir/TESTING_workflow.R --data_path ${data_path} --output_path ${output_path} --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups}
+  Rscript $baseDir/TESTING_workflow.R --data_path ${data_path} --output_path ${output_path} --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups} --do_log_transformation ${do_log_transformation} --normalization_method ${normalization_method} --PCA_impute ${PCA_impute}
   """ 
 }
 
@@ -51,6 +57,6 @@ process Pythonscript {
 
 
 workflow {
-  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups) 
+  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups, params.do_log_transformation, params.normalization_method, params.PCA_impute) 
   Pythonscript(params.output_path, Rscript.out[3], Rscript.out[0], Rscript.out[2])
 } 
