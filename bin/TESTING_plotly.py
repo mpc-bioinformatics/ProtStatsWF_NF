@@ -42,6 +42,7 @@ if __name__ == "__main__":
     
     ### PCA
     ### TODO: x- und y-achse sollten % der erklärten Varianz anzeigen!
+    ### TODO: Punkte in PCA etwas größer!
     D_PCA = pd.read_csv(D_PCA_csv)
     fig_pca = px.scatter(D_PCA, x="PCx", y="PCy", hover_data=['Sample'], color = 'groupvar1', custom_data = D_PCA)
     fig_pca.update_layout(xaxis_title="PC1", yaxis_title="PC2", legend={"title":"Group"})

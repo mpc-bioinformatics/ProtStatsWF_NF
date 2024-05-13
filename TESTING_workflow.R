@@ -3,6 +3,7 @@
 
 # first install packages affy, matrixStats and vsn
 #install.packages("../ProtStatsWF", repos = NULL, type="source")
+library(limma)
 library(ProtStatsWF)
 
 
@@ -28,9 +29,9 @@ use_groups = as.logical(args[4])
 ### hashtag if we need this in the command line
 
 
-workflow_QC(data_path, #
-            intensity_columns, #
-            output_path, #
+workflow_QC(data_path = data_path, #
+            intensity_columns = intensity_columns, #
+            output_path = output_path, #
 
             na_strings = c("NA", "NaN", "Filtered","#NV"),
             zero_to_NA = TRUE, #

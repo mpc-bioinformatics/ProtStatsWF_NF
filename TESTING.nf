@@ -8,6 +8,8 @@ params.use_groups = "TRUE"
 
 
 process Rscript {
+  container 'docker_r'
+
   publishDir 'results', mode:'copy'
 
   input:
@@ -30,6 +32,8 @@ process Rscript {
 
 
 process Pythonscript {
+  container 'protstatswf2'
+
   publishDir 'results', mode:'copy'
   
   input:

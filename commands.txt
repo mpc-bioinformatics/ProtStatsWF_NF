@@ -1,8 +1,19 @@
 
-Rscript TESTING_workflow.R "testdata/HCC_19vs19.xlsx" "test_output_HCC" "10:47" "TRUE"
+
+conda activate R-py_nf_test
 
 python TESTING_plotly.py -output_path "test_output_HCC" -D_validvalues_csv "test_output_HCC/D_validvalues.csv" \
 -D_long_csv "test_output_HCC/D_norm_long.csv" -D_PCA_csv "test_output_HCC/D_PCA.csv"
 
 nextflow run TESTING.nf
+
+
+
+######################
+
+nextflow run TESTING.nf \
+    --data_path /home/schorkka/Documents/ProtStatsWF_NF/testdata/Data_prepared_NO_MISSINGS_Mara_Kloehn.xlsx \
+    --intensity_columns "16:27" 
+
+
 
