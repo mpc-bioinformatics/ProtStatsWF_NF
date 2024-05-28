@@ -8,7 +8,7 @@ params.use_groups = "TRUE"
 
 
 process Rscript {
-  container 'docker_r'
+  container 'workflow-r:latest'
 
   publishDir 'results', mode:'copy'
 
@@ -26,13 +26,13 @@ process Rscript {
     path("*.pdf")
 
   """
-  Rscript $baseDir/TESTING_workflow.R ${data_path} ${output_path} ${intensity_columns} ${use_groups}
+  Rscript $baseDir/workflow_QC.R ${data_path} ${output_path} ${intensity_columns} ${use_groups}
   """ 
 }
 
 
 process Pythonscript {
-  container 'protstatswf2'
+  container 'workflow-python:latest'
 
   publishDir 'results', mode:'copy'
   
@@ -47,7 +47,7 @@ process Pythonscript {
     path("*.html")
     
   """
-  TESTING_plotly.py -output_path ${output_path} -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_long_csv} -D_PCA_csv ${D_PCA_csv}
+  workflow_QC_viz.py -output_path ${output_path} -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_long_csv} -D_PCA_csv ${D_PCA_csv}
   """ 
 }
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import plotly
+
 import pandas as pd
+import plotly
 import argparse
 import plotly.express as px
 
