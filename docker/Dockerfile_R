@@ -13,11 +13,5 @@ RUN R -e "install.packages('devtools', lib = 'usr/local/lib/R/library'); withr::
 
 
 
-# ; devtools::install_github('mpc-bioinformatics/ProtStatsWF')
-# devtools::install_github('mpc-bioinformatics/ProtStatsWF', args = c('--library="./usr/local/lib/R/library"'))
 
-#ENTRYPOINT [ "/usr/local/bin/_entrypoint.sh"]
-
-#\
-# && R -e "install.packages(c('car', 'ggrepel', 'gtools', 'matrixStats', 'multcomp', 'nlme', 'openxlsx', 'pbapply', 'tidyverse'))"
 
