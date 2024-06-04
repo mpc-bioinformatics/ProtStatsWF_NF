@@ -17,10 +17,11 @@ args <- commandArgs(TRUE)
 # use_groups = TRUE
 
 data_path = args[1]
-output_path = args[2]
+output_path = "." #args[2]
 intensity_columns = eval(parse(text=args[3]))
 use_groups = as.logical(args[4])
 
+print(getwd())
 
 ### weitere Parameter für die User:
 # group_colours

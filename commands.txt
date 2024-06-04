@@ -1,3 +1,4 @@
 sudo nextflow run -profile docker main_QC.nf \
     --data_path /home/schorkka/Documents/ProtStatsWF_NF/testdata/Data_prepared_NO_MISSINGS_Mara_Kloehn.xlsx \
-    --intensity_columns "16:27" 
+    --intensity_columns "16:27" \
+    --output_path "./results2"

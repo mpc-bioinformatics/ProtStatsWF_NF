@@ -26,7 +26,7 @@ process Rscript {
     path("*.pdf")
 
   """
-  Rscript $baseDir/workflow_QC.R ${data_path} ${output_path} ${intensity_columns} ${use_groups}
+  Rscript $baseDir/workflow_QC.R ${data_path} "." ${intensity_columns} ${use_groups}
   """ 
 }
 
@@ -34,7 +34,7 @@ process Rscript {
 process Pythonscript {
   container 'mpc/protstatswf-python:1.0.0'
 
-  publishDir 'results', mode:'copy'
+  publishDir '${params.output_path}/results', mode:'copy'
   
   input:
     val output_path
@@ -47,7 +47,7 @@ process Pythonscript {
     path("*.html")
     
   """
-  workflow_QC_viz.py -output_path ${output_path} -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_long_csv} -D_PCA_csv ${D_PCA_csv}
+  workflow_QC_viz.py -output_path "." -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_long_csv} -D_PCA_csv ${D_PCA_csv}
   """ 
 }
 
