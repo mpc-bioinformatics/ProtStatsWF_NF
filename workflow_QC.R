@@ -6,9 +6,6 @@
 library(limma)
 library(ProtStatsWF)
 
-
-
-
 # library(openxlsx)
 # D <- read.xlsx("..\\testdata/01_QC/HCC_19vs19.xlsx")
 
@@ -29,7 +26,6 @@ use_groups = as.logical(args[4])
 # group_colours
 
 ### hashtag if we need this in the command line
-
 
 workflow_QC(data_path = data_path, #
             intensity_columns = intensity_columns, #

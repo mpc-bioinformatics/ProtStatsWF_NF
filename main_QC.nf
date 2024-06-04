@@ -8,7 +8,7 @@ params.use_groups = "TRUE"
 
 
 process Rscript {
-  container 'workflow-r:latest'
+  container 'mpc/protstatswf-r:1.0.0'
 
   publishDir '${params.output_path}/results', mode:'copy'
 
@@ -32,7 +32,7 @@ process Rscript {
 
 
 process Pythonscript {
-  container 'workflow-python:latest'
+  container 'mpc/protstatswf-python:1.0.0'
 
   publishDir 'results', mode:'copy'
   
