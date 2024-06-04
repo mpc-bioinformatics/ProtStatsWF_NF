@@ -10,7 +10,7 @@ params.use_groups = "TRUE"
 process Rscript {
   container 'workflow-r:latest'
 
-  publishDir '${params.main_outdir}/results', mode:'copy'
+  publishDir '${params.output_path}/results', mode:'copy'
 
   input:
     val data_path
