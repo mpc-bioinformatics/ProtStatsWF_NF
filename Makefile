@@ -1,3 +1,3 @@
 install-docker:
-	docker build -t workflow-python:latest -f docker/Dockerfile_Python .
-	docker build -t workflow-r:latest -f docker/Dockerfile_R .
+	docker build -t mpc/ProtStatsWF-python:1.0.0 -f docker/Dockerfile_Python .
+	docker build -t mpc/ProStatsWf-r:1.0.0 -f docker/Dockerfile_R .
