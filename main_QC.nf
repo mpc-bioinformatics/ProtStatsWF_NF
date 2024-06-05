@@ -10,7 +10,10 @@ params.use_groups = "TRUE"
 process Rscript {
   container 'mpc/protstatswf-r:1.0.0'
 
-  publishDir '${params.output_path}/results', mode:'copy'
+  publishDir(
+    path:"${params.output_path}/results", 
+    mode:'copy'
+  )
 
   input:
     val data_path
@@ -34,7 +37,10 @@ process Rscript {
 process Pythonscript {
   container 'mpc/protstatswf-python:1.0.0'
 
-  publishDir '${params.output_path}/results', mode:'copy'
+  publishDir(
+    path:"${params.output_path}/results", 
+    mode:'copy'
+  )
   
   input:
     val output_path
