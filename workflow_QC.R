@@ -21,6 +21,10 @@ output_path = "." #args[2]
 intensity_columns = eval(parse(text=args[3]))
 use_groups = as.logical(args[4])
 
+normalization_method = args[5]
+do_log_transformation = as.logical(args[6])
+
+
 print(getwd())
 
 ### weitere Parameter für die User:
@@ -35,7 +39,7 @@ workflow_QC(data_path = data_path, #
             na_strings = c("NA", "NaN", "Filtered","#NV"),
             zero_to_NA = TRUE, #
 
-            do_log_transformation = TRUE, #
+            do_log_transformation = do_log_transformation, #
             log_base = 2, #
 
             use_groups = use_groups, #
@@ -49,7 +53,7 @@ workflow_QC(data_path = data_path, #
             plot_dpi = 300,
             suffix = "",
 
-            normalization_method = "loess", #
+            normalization_method = normalization_method, #
 
             boxplot_method = "boxplot",
 
