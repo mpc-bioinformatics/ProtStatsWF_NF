@@ -5,24 +5,68 @@
 #install.packages("../ProtStatsWF", repos = NULL, type="source")
 library(limma)
 library(ProtStatsWF)
+library(optparse)
 
-# library(openxlsx)
-# D <- read.xlsx("..\\testdata/01_QC/HCC_19vs19.xlsx")
+option_list <- list( 
+  make_option(opt_str = c("--data_path"), 
+              type = "character",
+              help = "A string of the input path for the data."),
+  make_option(opt_str = c("--output_path"), 
+              type = "character",
+              help = "A string of the input path for the data."),
+  make_option(opt_str = c("--intensity_columns_start"), 
+              type = "integer",
+              help = "An integer of the first data column."),
+  make_option(opt_str = c("--intensity_columns_end"), 
+              type = "integer",
+              help = "An integer of the last data column."),
+  make_option(opt_str = c("--use_groups"), 
+              type = "logical",
+              default = "TRUE",
+              help = "A logical if groupings should be used."),
+  make_option(opt_str = c("--zero_to_NA"), 
+              type = "logical",
+              default = "TRUE",
+              help = "A logical if 0 should be considered 0 or turned into not-available/NA."),
+  make_option(opt_str = c("--do_log_transformation"), 
+              type = "logical",
+              default = "TRUE",
+              help = "A logical if the data should be log transformed."),
+  make_option(opt_str = c("--log_base"), 
+              type = "integer",
+              default = 2,
+              help = "An integer base the data should be log transformed in, if it is going to be log transformed."),
+  make_option(opt_str = c("--normalization_method"), 
+              type = "character",
+              default = "loess",
+              help = "A character of the normalization method. Possible methods are no normalization nonorm or median, loess (default), quantile or lts normalization"),
+  make_option(opt_str = c("--PCA_impute"), 
+              type = "logical",
+              default = "FALSE",
+              help = "A logical if the data should imputed when doing the PCA."),
+  make_option(opt_str = c("--PCA_impute_method"), 
+              type = "character",
+              default = "mean",
+              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median")
+)
 
-args <- commandArgs(TRUE)
+opt <- parse_args(OptionParser(option_list=option_list))
 
-# data_path = "testdata/HCC_19vs19.xlsx"
-# intensity_columns = 10:47
-# output_path = "example_output/"
-# use_groups = TRUE
+if(is.null(opt$data_path)){
+  message("The data path is missing. Add: --data_path <your/data/path/file.xlsx>")
+}
+if(is.null(opt$output_path)){
+  message("The output path is missing. Add: --output_path <your/output/path/folder>")
+}
+if(is.null(opt$intensity_columns_start)){
+  message("The column number where the data starts is missing. Add: --intensity_columns_start <number>")
+}
+if(is.null(opt$intensity_columns_end)){
+  message("The column number where the data ends is missing. Add: --intensity_columns_end <number>")
+}
 
-data_path = args[1]
-output_path = "." #args[2]
-intensity_columns = eval(parse(text=args[3]))
-use_groups = as.logical(args[4])
 
-normalization_method = args[5]
-do_log_transformation = as.logical(args[6])
+intensity_columns = opt$intensity_columns_start:opt$intensity_columns_end
 
 
 print(getwd())
@@ -32,37 +76,37 @@ print(getwd())
 
 ### hashtag if we need this in the command line
 
-workflow_QC(data_path = data_path, #
-            intensity_columns = intensity_columns, #
-            output_path = output_path, #
-
+workflow_QC(data_path = opt$data_path,
+            intensity_columns = intensity_columns,
+            output_path = opt$output_path,
+            
             na_strings = c("NA", "NaN", "Filtered","#NV"),
-            zero_to_NA = TRUE, #
-
-            do_log_transformation = do_log_transformation, #
-            log_base = 2, #
-
-            use_groups = use_groups, #
+            zero_to_NA = opt$zero_to_NA,
+            
+            do_log_transformation = opt$do_log_transformation,
+            log_base = opt$log_base,
+            
+            use_groups = opt$use_groups,
             groupvar_name = "Group",
             group_colours = NULL,
-
+            
             base_size = 15,
             plot_device = "pdf",
             plot_height = 10,
             plot_width = 15,
             plot_dpi = 300,
             suffix = "",
-
-            normalization_method = normalization_method, #
-
+            
+            normalization_method = opt$normalization_method,
+            
             boxplot_method = "boxplot",
-
+            
             MA_maxPlots = 5000,
             MA_alpha = FALSE,
-
+            
             #PCA_groupvar1 = NULL,
             #PCA_groupvar2 = NULL,
-            PCA_impute = FALSE, PCA_impute_method = "mean", PCA_propNA = 0,
+            PCA_impute = opt$PCA_impute, PCA_impute_method = opt$PCA_impute_method, PCA_propNA = 0,
             PCA_scale. = TRUE,
             PCA_PCx = 1, PCA_PCy = 2,
             PCA_groupvar1_name = "Group",
