@@ -47,8 +47,7 @@ option_list <- list(
   make_option(opt_str = c("--PCA_impute_method"), 
               type = "character",
               default = "mean",
-              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median"),
-  
+              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))

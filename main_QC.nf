@@ -62,6 +62,6 @@ process Pythonscript {
 
 
 workflow {
-  Rscript(params.data_path, params.output_path, params.intensity_columns, params.use_groups) 
+  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups, params.do_log_transformation, params.normalization_method, params.PCA_impute) 
   Pythonscript(params.output_path, Rscript.out[3], Rscript.out[0], Rscript.out[2])
 } 
