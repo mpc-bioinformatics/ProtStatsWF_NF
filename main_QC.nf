@@ -6,8 +6,8 @@ params.output_path = "."
 params.intensity_columns_start = "10"
 params.intensity_columns_end = "47"
 params.use_groups = "TRUE"
-params.do_log_transformation = "TRUE"
 params.normalization_method = "loess"
+params.do_log_transformation = "TRUE"
 params.PCA_impute = "FALSE"
 
 
