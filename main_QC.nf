@@ -25,8 +25,8 @@ process Rscript {
     val intensity_columns_start
     val intensity_columns_end
     val use_groups
-    val do_log_transformation
     val normalization_method
+    val do_log_transformation
     val PCA_impute
 
   output:
