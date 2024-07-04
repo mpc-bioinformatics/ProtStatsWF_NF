@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN R -e "if (!require('BiocManager', quietly = TRUE)) install.packages('BiocManager', lib = 'usr/local/lib/R/library'); BiocManager::install(c('limma', 'affy', 'ComplexHeatmap', 'vsn'), lib = 'usr/local/lib/R/library')" 
 
-RUN R -e "install.packages('devtools', lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/ProtStatsWF'))" 
+RUN R -e "install.packages(c('devtools', 'optparse'), lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/ProtStatsWF'))" 
 
 
 
