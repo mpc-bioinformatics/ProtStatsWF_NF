@@ -21,15 +21,15 @@ option_list <- list(
               type = "integer",
               help = "An integer of the last data column."),
   make_option(opt_str = c("--use_groups"), 
-              type = "logical",
+              type = "character",
               default = "TRUE",
               help = "A logical if groupings should be used."),
   make_option(opt_str = c("--zero_to_NA"), 
-              type = "logical",
+              type = "character",
               default = "TRUE",
               help = "A logical if 0 should be considered 0 or turned into not-available/NA."),
   make_option(opt_str = c("--do_log_transformation"), 
-              type = "logical",
+              type = "character",
               default = "TRUE",
               help = "A logical if the data should be log transformed."),
   make_option(opt_str = c("--log_base"), 
@@ -41,7 +41,7 @@ option_list <- list(
               default = "loess",
               help = "A character of the normalization method. Possible methods are no normalization nonorm or median, loess (default), quantile or lts normalization"),
   make_option(opt_str = c("--PCA_impute"), 
-              type = "logical",
+              type = "character",
               default = "FALSE",
               help = "A logical if the data should imputed when doing the PCA."),
   make_option(opt_str = c("--PCA_impute_method"), 
@@ -65,11 +65,21 @@ if(is.null(opt$intensity_columns_end)){
   message("The column number where the data ends is missing. Add: --intensity_columns_end <number>")
 }
 
+## transform some options to logical:
+opt$use_groups <- as.logical(opt$use_groups)
+opt$zero_to_NA <- as.logical(opt$zero_to_NA)
+opt$do_log_transformation <- as.logical(opt$do_log_transformation)
+opt$PCA_impute <- as.logical(opt$PCA_impute)
+
+
 
 intensity_columns = opt$intensity_columns_start:opt$intensity_columns_end
 
 
+print(opt)
+
 print(getwd())
+print(opt$do_log_transformation)
 
 ### weitere Parameter für die User:
 # group_colours
@@ -83,10 +93,10 @@ workflow_QC(data_path = opt$data_path,
             na_strings = c("NA", "NaN", "Filtered","#NV"),
             zero_to_NA = opt$zero_to_NA,
             
-            do_log_transformation = opt$do_log_transformation,
+            do_log_transformation = TRUE,#opt$do_log_transformation,
             log_base = opt$log_base,
             
-            use_groups = opt$use_groups,
+            use_groups = TRUE,#opt$use_groups,
             groupvar_name = "Group",
             group_colours = NULL,
             
@@ -106,11 +116,22 @@ workflow_QC(data_path = opt$data_path,
             
             #PCA_groupvar1 = NULL,
             #PCA_groupvar2 = NULL,
-            PCA_impute = opt$PCA_impute, PCA_impute_method = opt$PCA_impute_method, PCA_propNA = 0,
+            PCA_impute = TRUE,#opt$PCA_impute, 
+            PCA_impute_method = opt$PCA_impute_method, 
+            PCA_propNA = 0,
             PCA_scale. = TRUE,
             PCA_PCx = 1, PCA_PCy = 2,
             PCA_groupvar1_name = "Group",
             #PCA_groupvar2_name = NULL,
-            PCA_alpha = 1, PCA_label = FALSE, PCA_label_seed = NA, PCA_label_size = 4,
-            PCA_xlim = NULL, PCA_ylim = NULL, PCA_point.size = 4
+            PCA_alpha = 1, 
+            PCA_label = FALSE, 
+            PCA_label_seed = NA, 
+            PCA_label_size = 4,
+            PCA_xlim = NULL, 
+            PCA_ylim = NULL, 
+            PCA_point.size = 4
             )
+
+
+
+

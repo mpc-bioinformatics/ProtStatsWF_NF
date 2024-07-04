@@ -2,3 +2,21 @@ sudo nextflow run -profile docker main_QC.nf \
     --data_path /home/schorkka/Documents/ProtStatsWF_NF/testdata/Data_prepared_NO_MISSINGS.xlsx \
     --intensity_columns "16:27" \
     --output_path "./results2"
+
+# new version:
+
+sudo nextflow run -profile docker main_QC.nf \
+    --data_path /home/schorkka/Documents/ProtStatsWF_NF/testdata/HCC_19vs19.xlsx \
+    --intensity_columns_start "10" \
+    --intensity_columns_end "47" \
+    --normalization_method "loess" \
+    --PCA_impute "FALSE" \
+    --use_groups "TRUE" \
+    --do_log_transformation "TRUE" 
+
+
+    
+        
+
+
+        --output_path "/home/schorkka/Documents/ProtStatsWF_NF/results3" \
