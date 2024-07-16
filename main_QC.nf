@@ -35,6 +35,7 @@ process Rscript {
     file("D_PCA.csv")
     file("D_validvalues.csv")
     path("*.pdf")
+    file("ID.csv")
 
   """
   Rscript $baseDir/workflow_QC.R --data_path ${data_path} --output_path ${output_path} --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups} --do_log_transformation ${do_log_transformation} --normalization_method ${normalization_method} --PCA_impute ${PCA_impute}
