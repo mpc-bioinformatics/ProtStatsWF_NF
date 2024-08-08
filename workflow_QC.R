@@ -47,7 +47,15 @@ option_list <- list(
   make_option(opt_str = c("--PCA_impute_method"), 
               type = "character",
               default = "mean",
-              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median")
+              help = "A character containing the method the data for the PCA is imputed. Methods are mean (default) or median"),
+  make_option(opt_str = c("--generate_MA_plots"), 
+              type = "character",
+              default = "TRUE",
+              help = "A logical if the MA-plots should be generated."),
+  make_option(opt_str = c("--MA_maxPlots"), 
+              type = "integer",
+              default = 5000,
+              help = "Maximum number of MA-plots to generate.")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
@@ -70,7 +78,7 @@ opt$use_groups <- as.logical(opt$use_groups)
 opt$zero_to_NA <- as.logical(opt$zero_to_NA)
 opt$do_log_transformation <- as.logical(opt$do_log_transformation)
 opt$PCA_impute <- as.logical(opt$PCA_impute)
-
+opt$generate_MA_plots <- as.logical(opt$generate_MA_plots)
 
 
 intensity_columns = opt$intensity_columns_start:opt$intensity_columns_end
@@ -90,7 +98,7 @@ workflow_QC(data_path = opt$data_path,
             intensity_columns = intensity_columns,
             output_path = opt$output_path,
             
-            na_strings = c("NA", "NaN", "Filtered","#NV"),
+            na_strings = c("NA", "NaN", "Filtered", "#NV"),
             zero_to_NA = opt$zero_to_NA,
             
             do_log_transformation = TRUE,#opt$do_log_transformation,
@@ -111,12 +119,13 @@ workflow_QC(data_path = opt$data_path,
             
             boxplot_method = "boxplot",
             
-            MA_maxPlots = 5000,
+            generate_MAplots = opt$generate_MA_plots,
+            MA_maxPlots = opt$MA_maxPlots,
             MA_alpha = FALSE,
             
             #PCA_groupvar1 = NULL,
             #PCA_groupvar2 = NULL,
-            PCA_impute = TRUE,#opt$PCA_impute, 
+            PCA_impute = opt$PCA_impute, 
             PCA_impute_method = opt$PCA_impute_method, 
             PCA_propNA = 0,
             PCA_scale. = TRUE,

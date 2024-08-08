@@ -9,6 +9,9 @@ params.use_groups = "TRUE"
 params.normalization_method = "loess"
 params.do_log_transformation = "TRUE"
 params.PCA_impute = "FALSE"
+params.generate_MA_plots = "TRUE"
+params.MA_maxPlots = 5000
+
 
 
 process Rscript {
@@ -28,6 +31,8 @@ process Rscript {
     val do_log_transformation
     val normalization_method
     val PCA_impute
+    val generate_MA_plots
+    val MA_maxPlots
 
   output:
     file("D_norm_long.csv")
@@ -38,7 +43,7 @@ process Rscript {
     file("ID.csv")
 
   """
-  Rscript $baseDir/workflow_QC.R --data_path ${data_path} --output_path ${output_path} --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups} --do_log_transformation ${do_log_transformation} --normalization_method ${normalization_method} --PCA_impute ${PCA_impute}
+  Rscript $baseDir/workflow_QC.R --data_path ${data_path} --output_path "." --intensity_columns_start ${intensity_columns_start} --intensity_columns_end ${intensity_columns_end} --use_groups ${use_groups} --do_log_transformation ${do_log_transformation} --normalization_method ${normalization_method} --PCA_impute ${PCA_impute} --generate_MA_plots ${generate_MA_plots} --MA_maxPlots ${MA_maxPlots}
   """
 }
 
@@ -54,7 +59,7 @@ process Pythonscript {
   input:
     val output_path
     file(D_validvalues_csv)
-    file(D_long_csv)
+    file(D_norm_long_csv)
     file(D_PCA_csv)
 
   output:
@@ -62,12 +67,12 @@ process Pythonscript {
     path("*.html")
 
   """
-  workflow_QC_viz.py -output_path "." -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_long_csv} -D_PCA_csv ${D_PCA_csv}
+  workflow_QC_viz.py -output_path "." -D_validvalues_csv ${D_validvalues_csv} -D_long_csv ${D_norm_long_csv} -D_PCA_csv ${D_PCA_csv}
   """
 }
 
 
 workflow {
-  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups, params.do_log_transformation, params.normalization_method, params.PCA_impute) 
+  Rscript(params.data_path, params.output_path, params.intensity_columns_start, params.intensity_columns_end, params.use_groups, params.do_log_transformation, params.normalization_method, params.PCA_impute, params.generate_MA_plots, params.MA_maxPlots) 
   Pythonscript(params.output_path, Rscript.out[3], Rscript.out[0], Rscript.out[2])
 }
